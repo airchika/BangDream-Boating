@@ -5,8 +5,8 @@ sta.home = new() { "祥子", "立希", "灯", "爱音", "素世" };
 sta.Sort();
 sta.loc = 1;
 SortedSet<State> visited = new(new Cmp());
-PriorityQueue<State, State> que = new(new Cmp());
-que.Enqueue(sta, sta);
+Queue<State> que = new();
+que.Enqueue(sta);
 while (que.Count != 0)
 {
     var x = que.Dequeue();
@@ -37,7 +37,7 @@ while (que.Count != 0)
                     m1.loc = 2;
                     m1.Sort();
                     m1.GoLog();
-                    que.Enqueue(m1, m1);
+                    que.Enqueue(m1);
                 }
                 var m2 = new State(x);
                 m2.home.RemoveAt(i);
@@ -46,7 +46,7 @@ while (que.Count != 0)
                 m2.loc = 2;
                 m2.Sort();
                 m2.GoLog();
-                que.Enqueue(m2, m2);
+                que.Enqueue(m2);
             }
 
             break;
@@ -61,7 +61,6 @@ while (que.Count != 0)
             {
                 x.GoLog();
                 Console.Write(x.log.ToString());
-                Console.WriteLine("成功到达。");
                 Console.WriteLine();
                 continue;
             }
@@ -78,7 +77,7 @@ while (que.Count != 0)
                     m1.loc = 1;
                     m1.Sort();
                     m1.BackLog();
-                    que.Enqueue(m1, m1);
+                    que.Enqueue(m1);
                 }
                 var m2 = new State(x);
                 m2.des.RemoveAt(i);
@@ -87,7 +86,7 @@ while (que.Count != 0)
                 m2.loc = 1;
                 m2.Sort();
                 m2.BackLog();
-                que.Enqueue(m2, m2);
+                que.Enqueue(m2);
             }
 
             break;
