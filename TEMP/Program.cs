@@ -5,16 +5,13 @@ sta.home = new() { "祥子", "立希", "灯", "爱音", "素世" };
 sta.Sort();
 sta.loc = 1;
 SortedSet<State> visited = new(new Cmp());
-PriorityQueue<State, State> que = new(new Cmp());
-que.Enqueue(sta, sta);
-while (que.Count != 0)
-{
-    var x = que.Dequeue();
-    if (!visited.Add(x))
-        continue;
-    //Console.WriteLine(x.ToString());
-    //Console.WriteLine(visited.Count);
+Rec(sta);
+Console.WriteLine("终.");
 
+void Rec(State x)
+{
+    if (!visited.Add(x))
+        return;
     switch (x.loc)
     {
         case 1:
@@ -23,7 +20,7 @@ while (que.Count != 0)
                 x.home.Add(x.boat[0]);
                 x.boat.RemoveAt(0);
             }
-            if (!x.ACC()) continue;
+            if (!x.ACC()) return;
             for (int i = 0; i < x.home.Count; i++)
             {
                 for (int j = i + 1; j < x.home.Count; j++)
@@ -37,7 +34,7 @@ while (que.Count != 0)
                     m1.loc = 2;
                     m1.Sort();
                     m1.GoLog();
-                    que.Enqueue(m1, m1);
+                    Rec(m1);
                 }
                 var m2 = new State(x);
                 m2.home.RemoveAt(i);
@@ -46,9 +43,8 @@ while (que.Count != 0)
                 m2.loc = 2;
                 m2.Sort();
                 m2.GoLog();
-                que.Enqueue(m2, m2);
+                Rec(m2);
             }
-
             break;
         case 2:
             while (x.boat.Count != 0)
@@ -56,14 +52,14 @@ while (que.Count != 0)
                 x.des.Add(x.boat[0]);
                 x.boat.RemoveAt(0);
             }
-            if (!x.ACC()) continue;
+            if (!x.ACC()) return;
             if (x.des.Count == 5)
             {
                 x.GoLog();
                 Console.Write(x.log.ToString());
                 Console.WriteLine("成功到达。");
                 Console.WriteLine();
-                continue;
+                return;
             }
             for (int i = 0; i < x.des.Count; i++)
             {
@@ -78,7 +74,7 @@ while (que.Count != 0)
                     m1.loc = 1;
                     m1.Sort();
                     m1.BackLog();
-                    que.Enqueue(m1, m1);
+                    Rec(m1);
                 }
                 var m2 = new State(x);
                 m2.des.RemoveAt(i);
@@ -87,15 +83,11 @@ while (que.Count != 0)
                 m2.loc = 1;
                 m2.Sort();
                 m2.BackLog();
-                que.Enqueue(m2, m2);
-            }
-
+                Rec(m2);
+            }  
             break;
     }
 }
-Console.WriteLine("终.");
-
-
 
 class State : IComparable<State>
 {
@@ -121,6 +113,7 @@ class State : IComparable<State>
     }
 
 
+    public int Nothing { get; set; }
 
 
     bool One_ACC(List<string> q, int type)
@@ -188,6 +181,8 @@ class State : IComparable<State>
         return 0;
     }
 
+    public int logTimes = 0;
+
     public void GoLog()
     {
         StringBuilder sb = new();
@@ -200,6 +195,7 @@ class State : IComparable<State>
         foreach (var c in des)
             sb.Append(c + ' ');
         log.AppendLine(sb.ToString());
+        logTimes++;
     }
 
     public void BackLog()
@@ -214,6 +210,7 @@ class State : IComparable<State>
         foreach (var c in des)
             sb.Append(c + ' ');
         log.AppendLine(sb.ToString());
+        logTimes++;
     }
 }
 
