@@ -4,8 +4,8 @@ State sta = new();
 sta.home = new() { "祥子", "立希", "灯", "爱音", "素世" };
 sta.Sort();
 sta.loc = 1;
-SortedSet<State> visited = new(new Cmp());
-PriorityQueue<State, State> que = new(new Cmp());
+SortedSet<State> visited = new();
+PriorityQueue<State, State> que = new();
 que.Enqueue(sta, sta);
 while (que.Count != 0)
 {
@@ -14,6 +14,7 @@ while (que.Count != 0)
         continue;
     //Console.WriteLine(x.ToString());
     //Console.WriteLine(visited.Count);
+    x = new State(x);
 
     switch (x.loc)
     {
@@ -217,10 +218,3 @@ class State : IComparable<State>
     }
 }
 
-class Cmp : IComparer<State>
-{
-    public int Compare(State? t, State? st)
-    {
-        return t.CmpName.CompareTo(st.CmpName);
-    }
-}
