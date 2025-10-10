@@ -1,5 +1,5 @@
 # 邦多利划小船
-一切的原因都是因为看到了这张图：
+一切的原因都是因为（病句）看到了这张图：
 ![a90f95ea571533cbfe61cb5219671bda](https://github.com/user-attachments/assets/4cf04a37-9626-416c-b531-3e19eea5ca66)
 
 然后就做了一个算法解决一下。
